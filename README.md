@@ -7,4 +7,5 @@
 
 ## `phase_diagram.py`
 - this is the complete code for Joyceyln to plot the phase diagram for each timestamp, ultimatly made into a movie
-- It depicts the Thermal pressure as a function of density for each timestamp.
+- It depicts the Thermal pressure as a function of density for each timestamp. (scatter chart)
+- In order to get a better understanding of the region, we added the histogram graphs for density, temperature and the thermal pressure (all in log scale).
