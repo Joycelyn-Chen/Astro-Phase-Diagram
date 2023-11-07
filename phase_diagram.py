@@ -60,7 +60,7 @@ def plot_line(x, cool_y, transition_y, warm_y, mass_or_vol):
     # plt.yscale('log')
     plt.grid(True) 
 
-    plt.savefig(os.path.join(graph_root, "mass_fraction", mass_or_vol, f"{mass_or_vol}.png"))
+    plt.savefig(os.path.join(graph_root, "mass_fraction", f"{mass_or_vol}.png"))
     plt.clf()
 
 
@@ -166,34 +166,35 @@ for timestamp in range(begin_time, end_time + 1, 1):
     # color: gray(#7f7f7f), 
     # plt.scatter(x, y, c='#1f77b4', marker='o', label='whole slice' if timestamp == begin_time else "", s=0.01)
     # plt.scatter(x, y1, c='r', marker='o', label='masked area' if timestamp == begin_time else "", s=0.01)
-    plt.scatter(dens_flattened, P_th_flattened, c='#1f77b4', marker='o', label='whole slice', s=0.01)
-    plt.scatter(dens_flattened, masked_P_th_flattened, c='r', marker='o', label='masked area', s=0.01)
-    plt.legend(loc='upper left')
+    
+    # # Plotting scatters
+    # plt.scatter(dens_flattened, P_th_flattened, c='#1f77b4', marker='o', label='whole slice', s=0.01)
+    # plt.scatter(dens_flattened, masked_P_th_flattened, c='r', marker='o', label='masked area', s=0.01)
+    # plt.legend(loc='upper left')
 
-    plt.title("Single Phase Diagram")
-    plt.xlabel("Density (n)")
-    plt.ylabel("Thermal pressure (nT)")
-    plt.grid(True) 
-    plt.yscale('log')
-    plt.xscale('log')  
-    # plt.show() 
-    plt.savefig(os.path.join(graph_root, f"phase_{timestamp}_1.png"))
-    plt.clf()
+    # plt.title("Single Phase Diagram")
+    # plt.xlabel("Density (n)")
+    # plt.ylabel("Thermal pressure (nT)")
+    # plt.grid(True) 
+    # plt.yscale('log')
+    # plt.xscale('log')  
+    # # plt.show() 
+    # plt.savefig(os.path.join(graph_root, f"phase_{timestamp}_1.png"))
+    # plt.clf()
 
 
-    # histogram of thermal pressure
-    plot_histogram(P_th_arr, "thermal_pressure", bins = 1000)
+    # # histogram of thermal pressure
+    # plot_histogram(P_th_arr, "thermal_pressure", bins = 1000)
 
-    # histogram of density
-    plot_histogram(dens_arr, "density", bins = 1000)
+    # # histogram of density
+    # plot_histogram(dens_arr, "density", bins = 1000)
 
-    # histogram of temperature
-    plot_histogram(temp_arr, "temperature", bins = 1000)
+    # # histogram of temperature
+    # plot_histogram(temp_arr, "temperature", bins = 1000)
 
 mass_vol_values_list = map(list, zip(*mass_vol_values))
 x_range = range(begin_time, end_time + 1)
 
-  
 # plot lines 
 plot_line(x_range, mass_vol_values_list[0], mass_vol_values_list[2], mass_vol_values_list[4], 'mass')
 plot_line(x_range, mass_vol_values_list[0], mass_vol_values_list[2], mass_vol_values_list[4], 'volume')
