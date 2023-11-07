@@ -23,6 +23,45 @@ def plot_histogram(y, category, bins = 1000):
     plt.clf()
 
 
+def volume_fraction(dens, temp, thres_1 = 1e4, thres_2 = 1e5):
+    # volume = 2.9379989445851796e+55 cm**3 / 1.0000000000000004*yt.units.pc**3
+    unit_vol = 2.9379989445851796e+55 * yt.units.cm**3
+    cold_mass = 0
+    cold_vol = 0
+    warm_mass = 0
+    warm_vol = 0
+    transition_mass = 0
+    transition_vol = 0
+
+    for i, value in enumerate(temp):
+        if value < thres_1:
+            cold_mass += dens[i] * unit_vol
+            cold_vol += unit_vol
+        elif value < thres_2:
+            transition_mass += dens[i] * unit_vol
+            transition_vol += unit_vol
+        else:
+            warm_mass += dens[i] * unit_vol
+            warm_vol += unit_vol
+    return cold_mass, cold_vol, transition_mass, transition_vol, warm_mass, warm_vol
+
+
+
+def plot_line(x, cool_y, transition_y, warm_y, mass_or_vol):
+    plt.plot(x, cool_y, label = f"cool {mass_or_vol}") 
+    plt.plot(x, transition_y, label = f"transition {mass_or_vol}") 
+    plt.plot(x, warm_y, label = f"warm {mass_or_vol}") 
+    
+    plt.legend() 
+    plt.title(f"Total {mass_or_vol}")
+    plt.xlabel("time (Myr)")
+    plt.ylabel(f"integrating {mass_or_vol}")
+    # plt.xscale('log')
+    # plt.yscale('log')
+    plt.grid(True) 
+
+    plt.savefig(os.path.join(graph_root, "mass_fraction", mass_or_vol, f"{mass_or_vol}.png"))
+    plt.clf()
 
 
 # Initialization
@@ -42,6 +81,7 @@ end_time = 209
 temp_arr = []
 dens_arr = []
 P_th_arr = []
+mass_vol_values = []
 
 for timestamp in range(begin_time, end_time + 1, 1):
     # Init array
@@ -119,6 +159,8 @@ for timestamp in range(begin_time, end_time + 1, 1):
     masked_P_th_flattened = np.array(masked_single_phase.to_ndarray().flatten())
     masked_temp_flattened = np.array(masked_temp.to_ndarray().flatten())
 
+    cold_mass, cold_vol, transition_mass, transition_vol, warm_mass, warm_vol = volume_fraction(masked_dens_flattened, masked_temp_flattened, thres_1 = 1e4, thres_2 = 1e5)
+    mass_vol_values.append((cold_mass, cold_vol, transition_mass, transition_vol, warm_mass, warm_vol))
 
     # Scatter plot for dens - thermal pressure
     # color: gray(#7f7f7f), 
@@ -148,3 +190,10 @@ for timestamp in range(begin_time, end_time + 1, 1):
     # histogram of temperature
     plot_histogram(temp_arr, "temperature", bins = 1000)
 
+mass_vol_values_list = map(list, zip(*mass_vol_values))
+x_range = range(begin_time, end_time + 1)
+
+  
+# plot lines 
+plot_line(x_range, mass_vol_values_list[0], mass_vol_values_list[2], mass_vol_values_list[4], 'mass')
+plot_line(x_range, mass_vol_values_list[0], mass_vol_values_list[2], mass_vol_values_list[4], 'volume')

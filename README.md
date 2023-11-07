@@ -4,6 +4,12 @@
 ## `energy_map.ipynb`
 - This is the experimental notebook where Joycelyn plays around the data and confirms which attribute to read, such as the density, temperature, velocity...etc. 
 - Final code can be found in the bottom-most cell
+![total energy map](./graphs/total_energy.png)
+> Energy map for the entire slice
+
+![masked enrygy map](./graphs/masked_energy.png)
+> masked area of the energy map
+
 
 ## `phase_diagram.py`
 - this is the complete code for Joyceyln to plot the phase diagram for each timestamp, ultimatly made into a movie
