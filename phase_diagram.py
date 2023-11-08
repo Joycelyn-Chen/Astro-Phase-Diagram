@@ -33,6 +33,7 @@ def volume_fraction(dens, temp, thres_1 = 1e4, thres_2 = 1e5):
     transition_mass = 0
     transition_vol = 0
 
+    print("Calculating volume fraction...\n")
     for i, value in enumerate(temp):
         if value < thres_1:
             cold_mass += dens[i] * unit_vol
@@ -57,7 +58,7 @@ def plot_line(x, cool_y, transition_y, warm_y, mass_or_vol):
     plt.xlabel("time (Myr)")
     plt.ylabel(f"integrating {mass_or_vol}")
     # plt.xscale('log')
-    # plt.yscale('log')
+    plt.yscale('log')
     plt.grid(True) 
 
     plt.savefig(os.path.join(graph_root, "mass_fraction", f"{mass_or_vol}.png"))
@@ -82,6 +83,7 @@ temp_arr = []
 dens_arr = []
 P_th_arr = []
 mass_vol_values = []
+mass_vol_values_list = [[], [], [], [], [], []]
 
 for timestamp in range(begin_time, end_time + 1, 1):
     # Init array
@@ -162,6 +164,21 @@ for timestamp in range(begin_time, end_time + 1, 1):
     cold_mass, cold_vol, transition_mass, transition_vol, warm_mass, warm_vol = volume_fraction(masked_dens_flattened, masked_temp_flattened, thres_1 = 1e4, thres_2 = 1e5)
     mass_vol_values.append((cold_mass, cold_vol, transition_mass, transition_vol, warm_mass, warm_vol))
 
+    mass_vol_values_list[0].append(cold_mass)
+    mass_vol_values_list[1].append(cold_vol)
+    mass_vol_values_list[2].append(transition_mass)
+    mass_vol_values_list[3].append(transition_vol)
+    mass_vol_values_list[4].append(warm_mass)
+    mass_vol_values_list[5].append(warm_vol)
+    
+    print(f"Mass and volume: ")
+    print(f"Cold mass: {mass_vol_values_list[0]}")
+    print(f"Cold volume: {mass_vol_values_list[1]}")
+    print(f"transition mass: {mass_vol_values_list[2]}")
+    print(f"transition volume: {mass_vol_values_list[3]}")
+    print(f"Warm mass: {mass_vol_values_list[4]}")
+    print(f"Warm volume: {mass_vol_values_list[5]}")
+
     # Scatter plot for dens - thermal pressure
     # color: gray(#7f7f7f), 
     # plt.scatter(x, y, c='#1f77b4', marker='o', label='whole slice' if timestamp == begin_time else "", s=0.01)
@@ -192,7 +209,19 @@ for timestamp in range(begin_time, end_time + 1, 1):
     # # histogram of temperature
     # plot_histogram(temp_arr, "temperature", bins = 1000)
 
-mass_vol_values_list = map(list, zip(*mass_vol_values))
+
+# for item in mass_vol_values:
+#     mass_vol_values_list[0].append(item[0])
+#     mass_vol_values_list[1].append(item[1])
+#     mass_vol_values_list[2].append(item[2])
+#     mass_vol_values_list[3].append(item[3])
+#     mass_vol_values_list[4].append(item[4])
+#     mass_vol_values_list[5].append(item[5])
+# mass_vol_values_list = map(list, zip(*mass_vol_values))
+
+
+
+
 x_range = range(begin_time, end_time + 1)
 
 # plot lines 
