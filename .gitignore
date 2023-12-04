@@ -170,3 +170,5 @@ cython_debug/
 **/*.jpeg
 **/*.JPEG
 
+# DAT data
+*.dat

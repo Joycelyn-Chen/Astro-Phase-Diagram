@@ -23,9 +23,9 @@ def plot_histogram(y, category, bins = 1000):
     plt.clf()
 
 
-def volume_fraction(dens, temp, thres_1 = 1e4, thres_2 = 1e5):
+def volume_fraction(dens, temp, thres_1 = pow(10, 4.2), thres_2 = pow(10, 5.5)):
     # volume = 2.9379989445851796e+55 cm**3 / 1.0000000000000004*yt.units.pc**3
-    unit_vol = 2.9379989445851796e+55 * yt.units.cm**3
+    unit_vol = 1.0000000000000004 * yt.units.pc**3
     cold_mass = 0
     cold_vol = 0
     warm_mass = 0
@@ -76,7 +76,7 @@ graph_root = "./graphs"
 
 # Loading the data
 
-begin_time = 200
+begin_time = 202
 end_time = 209
 
 temp_arr = []
@@ -104,10 +104,10 @@ for timestamp in range(begin_time, end_time + 1, 1):
 
 
     # Initializing value storing entity
-    single_phase = yt.YTArray(np.zeros((800, 800, 15))) * (yt.units.kelvin) / yt.units.cm**3
-    dens = yt.YTArray(np.zeros((800, 800, 15))) * (1) / yt.units.cm**3
-    masked_single_phase = yt.YTArray(np.zeros((800, 800, 15))) * (yt.units.kelvin) / yt.units.cm**3
-    masked_dens = yt.YTArray(np.zeros((800, 800, 15))) * (1) / yt.units.cm**3
+    single_phase = yt.YTArray(np.zeros((800, 800, 15))) * (yt.units.kelvin) / yt.units.pc**3
+    dens = yt.YTArray(np.zeros((800, 800, 15))) * (1) / yt.units.pc**3
+    masked_single_phase = yt.YTArray(np.zeros((800, 800, 15))) * (yt.units.kelvin) / yt.units.pc**3
+    masked_dens = yt.YTArray(np.zeros((800, 800, 15))) * (1) / yt.units.pc**3
     masked_temp = yt.YTArray(np.zeros((800, 800, 15))) * (yt.units.kelvin)
 
 
@@ -161,7 +161,7 @@ for timestamp in range(begin_time, end_time + 1, 1):
     masked_P_th_flattened = np.array(masked_single_phase.to_ndarray().flatten())
     masked_temp_flattened = np.array(masked_temp.to_ndarray().flatten())
 
-    cold_mass, cold_vol, transition_mass, transition_vol, warm_mass, warm_vol = volume_fraction(masked_dens_flattened, masked_temp_flattened, thres_1 = 1e4, thres_2 = 1e5)
+    cold_mass, cold_vol, transition_mass, transition_vol, warm_mass, warm_vol = volume_fraction(masked_dens_flattened, masked_temp_flattened, thres_1 = 10**4.2, thres_2 = 10**5.5)
     mass_vol_values.append((cold_mass, cold_vol, transition_mass, transition_vol, warm_mass, warm_vol))
 
     mass_vol_values_list[0].append(cold_mass)
@@ -226,4 +226,4 @@ x_range = range(begin_time, end_time + 1)
 
 # plot lines 
 plot_line(x_range, mass_vol_values_list[0], mass_vol_values_list[2], mass_vol_values_list[4], 'mass')
-plot_line(x_range, mass_vol_values_list[0], mass_vol_values_list[2], mass_vol_values_list[4], 'volume')
+plot_line(x_range, mass_vol_values_list[1], mass_vol_values_list[3], mass_vol_values_list[5], 'volume')
