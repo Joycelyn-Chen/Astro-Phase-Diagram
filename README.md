@@ -15,3 +15,7 @@
 - this is the complete code for Joyceyln to plot the phase diagram for each timestamp, ultimatly made into a movie
 - It depicts the Thermal pressure as a function of density for each timestamp. (scatter chart)
 - In order to get a better understanding of the region, we added the histogram graphs for density, temperature and the thermal pressure (all in log scale).
+
+## `tracing_SN_events.ipynb`
+- this is the organized notebook for tracing the origin of a single SN event. 
+- The code allows you to input the desire region of interest and output all the SN that goes off within the region from the past 10 Myr
