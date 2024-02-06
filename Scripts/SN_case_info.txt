@@ -1,0 +1,15 @@
+n_SN          6.485000e+03
+type          2.000000e+00
+n_timestep    5.025000e+04
+n_tracer      0.000000e+00
+time          6.276960e+15
+posx         -1.452438e+21
+posy          6.448584e+20
+posz         -1.386144e+20
+radius        6.607856e+19
+mass          3.734677e+35
+time_Myr      1.990411e+02
+posx_pc      -4.707031e+02
+posy_pc       2.089844e+02
+posz_pc      -4.492187e+01
+Name: 6484, dtype: float64
